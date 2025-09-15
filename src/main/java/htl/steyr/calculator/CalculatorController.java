@@ -3,6 +3,7 @@ package htl.steyr.calculator;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 public class CalculatorController {
     public TextField resultTextField;
@@ -18,19 +19,18 @@ public class CalculatorController {
     }
 
     public void mathOperationClicked(ActionEvent actionEvent) {
+        String op = ((Button) actionEvent.getSource()).getText();
 
-        if(!operation.isEmpty()){
-            resultButtonClicked(actionEvent);
+        if (!operation.isEmpty()) {
+            resultButtonClicked(null);
         }
-        operation = ((Button) actionEvent.getSource()).getText();
+        operation = op;
         firstNumber = Double.parseDouble(resultTextField.getText());
         operationClicked = true;
-
-
     }
 
     public void numberButtonClicked(ActionEvent actionEvent) {
-        if (operationClicked){
+        if (operationClicked) {
             resultTextField.clear();
             operationClicked = false;
         }
@@ -42,25 +42,22 @@ public class CalculatorController {
     public void resultButtonClicked(ActionEvent actionEvent) {
         double result = 0;
 
-        switch (operation){
-            case "+":
-                result = firstNumber + Double.parseDouble(resultTextField.getText());
-                break;
+        if (operation.isEmpty() || resultTextField.getText().isEmpty()) {
+            return;
+        }
 
-            case "-":
-                result = firstNumber - Double.parseDouble(resultTextField.getText());
-                break;
+        double secondNumber = Double.parseDouble(resultTextField.getText());
 
-            case "X":
-                result = firstNumber * Double.parseDouble(resultTextField.getText());
-                break;
-
-            case "/":
-                result = firstNumber / Double.parseDouble(resultTextField.getText());
-                break;
+        switch (operation) {
+            case "+": result = firstNumber + secondNumber; break;
+            case "-": result = firstNumber - secondNumber; break;
+            case "X": result = firstNumber * secondNumber; break;
+            case "/": result = firstNumber / secondNumber; break;
         }
 
         resultTextField.setText(String.valueOf(result));
+        operation = "";
+        firstNumber = result;
     }
 
     public void invertButtonClicked(ActionEvent actionEvent) {
@@ -71,10 +68,38 @@ public class CalculatorController {
         }
     }
 
-
     public void commaButtonClicked(ActionEvent actionEvent) {
         if (!resultTextField.getText().contains(".")) {
             resultTextField.appendText(".");
         }
+    }
+
+    public void handleKeyPress(KeyEvent event) {
+        String text = event.getText();
+
+        if (text.matches("[0-9]")) {
+            if (operationClicked) {
+                resultTextField.clear();
+                operationClicked = false;
+            }
+            resultTextField.appendText(text);
+            return;
+        }
+
+        switch (text) {
+            case "+": case "-": case "/": startOperation(text); break;
+            case "*": startOperation("X"); break;
+            case "=": case "\r": case "\n": resultButtonClicked(null); break;
+            case ".": case ",": commaButtonClicked(null); break;
+        }
+    }
+
+    private void startOperation(String op) {
+        if (!operation.isEmpty()) resultButtonClicked(null);
+        operation = op;
+        if (!resultTextField.getText().isEmpty()) {
+            firstNumber = Double.parseDouble(resultTextField.getText());
+        }
+        operationClicked = true;
     }
 }
