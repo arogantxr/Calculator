@@ -2,12 +2,14 @@ package htl.steyr.calculator;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class CalculatorController {
     public TextField resultTextField;
+    public Label calculateWay;
 
     private double firstNumber = 0;
     private String operation = "";
@@ -15,6 +17,7 @@ public class CalculatorController {
 
     public void clearButtonClicked(ActionEvent actionEvent) {
         resultTextField.clear();
+        calculateWay.setText("");
         firstNumber = 0;
         operation = "";
     }
@@ -28,6 +31,7 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
+        calculateWay.setText(firstNumber + " " + operation);
         operationClicked = true;
     }
 
@@ -54,6 +58,7 @@ public class CalculatorController {
             case "/": result = firstNumber / secondNumber; break;
         }
 
+        calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " =");
         resultTextField.setText(String.valueOf(result));
         operation = "";
         firstNumber = result;
@@ -135,6 +140,7 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
+        calculateWay.setText(firstNumber + " " + operation);
         operationClicked = true;
     }
 
