@@ -17,7 +17,6 @@ public class CalculatorController {
 
     public void clearButtonClicked(ActionEvent actionEvent) {
         resultTextField.clear();
-        calculateWay.setText("");
         firstNumber = 0;
         operation = "";
     }
@@ -31,7 +30,6 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
-        calculateWay.setText(firstNumber + " " + operation);
         operationClicked = true;
     }
 
@@ -58,7 +56,6 @@ public class CalculatorController {
             case "/": result = firstNumber / secondNumber; break;
         }
 
-        calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " =");
         resultTextField.setText(String.valueOf(result));
         operation = "";
         firstNumber = result;
@@ -100,12 +97,12 @@ public class CalculatorController {
             case SUBTRACT:
                 startOperation("-");
                 break;
-            case SLASH:
-            case DIVIDE:
-                startOperation("/");
-                break;
             case MULTIPLY:
                 startOperation("X");
+                break;
+            case SLASH:
+            case DIVIDE:
+                startOperation("/"); // fixed division key
                 break;
             case ENTER:
             case EQUALS:
@@ -128,9 +125,13 @@ public class CalculatorController {
                 if ("*".equals(text)) {
                     startOperation("X");
                 }
+                if ("/".equals(text)) { // fallback if slash keyCode didn't fire
+                    startOperation("/");
+                }
                 break;
         }
     }
+
 
     private void startOperation(String op) {
         if (!operation.isEmpty()) {
@@ -140,7 +141,6 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
-        calculateWay.setText(firstNumber + " " + operation);
         operationClicked = true;
     }
 
