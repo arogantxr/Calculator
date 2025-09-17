@@ -17,6 +17,7 @@ public class CalculatorController {
 
     public void clearButtonClicked(ActionEvent actionEvent) {
         resultTextField.clear();
+        calculateWay.setText(""); // clear the label too
         firstNumber = 0;
         operation = "";
     }
@@ -30,6 +31,7 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
+        calculateWay.setText(firstNumber + " " + operation);
         operationClicked = true;
     }
 
@@ -56,6 +58,7 @@ public class CalculatorController {
             case "/": result = firstNumber / secondNumber; break;
         }
 
+        calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " =");
         resultTextField.setText(String.valueOf(result));
         operation = "";
         firstNumber = result;
@@ -89,49 +92,21 @@ public class CalculatorController {
         }
 
         switch (code) {
-            case PLUS:
-            case ADD:
-                startOperation("+");
-                break;
-            case MINUS:
-            case SUBTRACT:
-                startOperation("-");
-                break;
-            case MULTIPLY:
-                startOperation("X");
-                break;
-            case SLASH:
-            case DIVIDE:
-                startOperation("/"); // fixed division key
-                break;
-            case ENTER:
-            case EQUALS:
-                resultButtonClicked(null);
-                break;
-            case COMMA:
-            case PERIOD:
-                commaButtonClicked(null);
-                break;
-            case BACK_SPACE:
-                deleteLastChar();
-                break;
-            case C:
-                clearButtonClicked(null);
-                break;
-            case CONTROL:
-                invertButtonClicked(null);
-                break;
+            case PLUS: case ADD: startOperation("+"); break;
+            case MINUS: case SUBTRACT: startOperation("-"); break;
+            case MULTIPLY: startOperation("X"); break;
+            case SLASH: case DIVIDE: startOperation("/"); break;
+            case ENTER: case EQUALS: resultButtonClicked(null); break;
+            case COMMA: case PERIOD: commaButtonClicked(null); break;
+            case BACK_SPACE: deleteLastChar(); break;
+            case C: clearButtonClicked(null); break;
+            case CONTROL: invertButtonClicked(null); break;
             default:
-                if ("*".equals(text)) {
-                    startOperation("X");
-                }
-                if ("/".equals(text)) { // fallback if slash keyCode didn't fire
-                    startOperation("/");
-                }
+                if ("*".equals(text)) startOperation("X");
+                if ("/".equals(text)) startOperation("/");
                 break;
         }
     }
-
 
     private void startOperation(String op) {
         if (!operation.isEmpty()) {
@@ -141,6 +116,7 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
+        calculateWay.setText(firstNumber + " " + operation); // update label
         operationClicked = true;
     }
 
