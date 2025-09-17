@@ -52,10 +52,18 @@ public class CalculatorController {
 
         double secondNumber = Double.parseDouble(resultTextField.getText());
         switch (operation) {
-            case "+": result = firstNumber + secondNumber; break;
-            case "-": result = firstNumber - secondNumber; break;
-            case "X": result = firstNumber * secondNumber; break;
-            case "/": result = firstNumber / secondNumber; break;
+            case "+":
+                result = firstNumber + secondNumber;
+                break;
+            case "-":
+                result = firstNumber - secondNumber;
+                break;
+            case "X":
+                result = firstNumber * secondNumber;
+                break;
+            case "/":
+                result = firstNumber / secondNumber;
+                break;
         }
 
         calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " =");
@@ -92,15 +100,38 @@ public class CalculatorController {
         }
 
         switch (code) {
-            case PLUS: case ADD: startOperation("+"); break;
-            case MINUS: case SUBTRACT: startOperation("-"); break;
-            case MULTIPLY: startOperation("X"); break;
-            case SLASH: case DIVIDE: startOperation("/"); break;
-            case ENTER: case EQUALS: resultButtonClicked(null); break;
-            case COMMA: case PERIOD: commaButtonClicked(null); break;
-            case BACK_SPACE: deleteLastChar(); break;
-            case C: clearButtonClicked(null); break;
-            case CONTROL: invertButtonClicked(null); break;
+            case PLUS:
+            case ADD:
+                startOperation("+");
+                break;
+            case MINUS:
+            case SUBTRACT:
+                startOperation("-");
+                break;
+            case MULTIPLY:
+                startOperation("X");
+                break;
+            case SLASH:
+            case DIVIDE:
+                startOperation("/");
+                break;
+            case ENTER:
+            case EQUALS:
+                resultButtonClicked(null);
+                break;
+            case COMMA:
+            case PERIOD:
+                commaButtonClicked(null);
+                break;
+            case BACK_SPACE:
+                deleteLastChar();
+                break;
+            case C:
+                clearButtonClicked(null);
+                break;
+            case CONTROL:
+                invertButtonClicked(null);
+                break;
             default:
                 if ("*".equals(text)) startOperation("X");
                 if ("/".equals(text)) startOperation("/");
