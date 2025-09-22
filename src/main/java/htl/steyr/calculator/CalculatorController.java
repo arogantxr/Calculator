@@ -51,13 +51,21 @@ public class CalculatorController {
         }
 
         double secondNumber = Double.parseDouble(resultTextField.getText());
+
         result = switch (operation) {
             case "+" -> firstNumber + secondNumber;
             case "-" -> firstNumber - secondNumber;
             case "X" -> firstNumber * secondNumber;
-            case "/" -> firstNumber / secondNumber;
+            case "/" -> {
+                if (secondNumber == 0) {
+                    yield Double.NaN;
+                } else {
+                    yield firstNumber / secondNumber;
+                }
+            }
             default -> result;
         };
+
 
         calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " ="); // show calculation
         resultTextField.setText(String.valueOf(result));
