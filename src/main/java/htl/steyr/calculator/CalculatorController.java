@@ -62,14 +62,14 @@ public class CalculatorController {
             case "X" -> firstNumber * secondNumber;
             case "/" -> {
                 if (secondNumber == 0) {
-                    yield Double.NaN;
+                    System.out.println("Error: Division by zero!");
+                    yield Double.NaN; // or show an error message
                 } else {
                     yield firstNumber / secondNumber;
                 }
             }
             default -> result;
         };
-
 
         calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " ="); // show calculation
         resultTextField.setText(String.valueOf(result));
@@ -95,7 +95,16 @@ public class CalculatorController {
         KeyCode code = event.getCode();
         String text = event.getText();
 
-        if (text.matches("[0-9]")) {
+
+        if (text.matches("[1-6]")) {
+            if (operationClicked) {
+                resultTextField.clear();
+                operationClicked = false;
+            }
+            resultTextField.appendText(text);
+            return;
+
+        } else if (text.matches("8-9")) {
             if (operationClicked) {
                 resultTextField.clear();
                 operationClicked = false;
@@ -107,42 +116,69 @@ public class CalculatorController {
         switch (code) {
             case PLUS:
             case ADD:
-                startOperation("+");
+
+                if (event.isShiftDown()) {
+                    startOperation("X");
+                } else {
+                    startOperation("+");
+                }
                 break;
+
             case MINUS:
             case SUBTRACT:
                 startOperation("-");
                 break;
-            case MULTIPLY:
-                startOperation("X");
-                break;
-            case SLASH:
+
             case DIVIDE:
                 startOperation("/");
                 break;
+
+            case DIGIT7:
+                if (event.isShiftDown()) {
+                    startOperation("/");
+                } else {
+                    if (operationClicked) {
+                        resultTextField.clear();
+                        operationClicked = false;
+                    }
+                    resultTextField.appendText("7");
+                }
+                break;
+
             case ENTER:
             case EQUALS:
                 resultButtonClicked();
                 break;
-            case COMMA:
+
             case PERIOD:
+            case COMMA:
                 commaButtonClicked();
                 break;
+
             case BACK_SPACE:
                 deleteLastChar();
                 break;
+
             case C:
                 clearButtonClicked();
                 break;
+
             case CONTROL:
                 invertButtonClicked();
                 break;
+
+            case DIGIT0:
+                if(event.isShiftDown()) {
+                    resultButtonClicked();
+                } else {
+                    resultTextField.appendText("0");
+                }
+
             default:
                 if ("*".equals(text)) startOperation("X");
                 if ("/".equals(text)) startOperation("/");
-                if ((code == KeyCode.DIGIT7 || code == KeyCode.NUMPAD7) && event.isShiftDown()) {
-                    startOperation("/");
-                }
+                if ("+".equals(text)) startOperation("+");
+                if ("-".equals(text)) startOperation("-");
                 break;
         }
     }
