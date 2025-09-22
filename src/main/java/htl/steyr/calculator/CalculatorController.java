@@ -24,6 +24,10 @@ public class CalculatorController {
 
     public void mathOperationClicked(ActionEvent actionEvent) {
         String op = ((Button) actionEvent.getSource()).getText();
+        ifEmpty(op);
+    }
+
+    private void ifEmpty(String op) {
         if (!operation.isEmpty()) {
             resultButtonClicked(null);
         }
@@ -144,15 +148,7 @@ public class CalculatorController {
     }
 
     private void startOperation(String op) {
-        if (!operation.isEmpty()) {
-            resultButtonClicked(null);
-        }
-        operation = op;
-        if (!resultTextField.getText().isEmpty()) {
-            firstNumber = Double.parseDouble(resultTextField.getText());
-        }
-        calculateWay.setText(firstNumber + " " + operation); // update label
-        operationClicked = true;
+        ifEmpty(op);
     }
 
     private void deleteLastChar() {
