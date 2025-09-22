@@ -119,14 +119,17 @@ public class CalculatorController {
 
                 if (event.isShiftDown()) {
                     startOperation("X");
+                    resultTextField.clear();
                 } else {
                     startOperation("+");
+                    resultTextField.clear();
                 }
                 break;
 
             case MINUS:
             case SUBTRACT:
                 startOperation("-");
+                resultTextField.clear();
                 break;
 
             case DIVIDE:
@@ -136,6 +139,7 @@ public class CalculatorController {
             case DIGIT7:
                 if (event.isShiftDown()) {
                     startOperation("/");
+                    resultTextField.clear();
                 } else {
                     if (operationClicked) {
                         resultTextField.clear();
@@ -160,6 +164,7 @@ public class CalculatorController {
                 break;
 
             case C:
+            case DELETE:
                 clearButtonClicked();
                 break;
 
@@ -173,13 +178,6 @@ public class CalculatorController {
                 } else {
                     resultTextField.appendText("0");
                 }
-
-            default:
-                if ("*".equals(text)) startOperation("X");
-                if ("/".equals(text)) startOperation("/");
-                if ("+".equals(text)) startOperation("+");
-                if ("-".equals(text)) startOperation("-");
-                break;
         }
     }
 
