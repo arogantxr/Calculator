@@ -17,7 +17,7 @@ public class CalculatorController {
 
     public void clearButtonClicked() {
         resultTextField.clear();
-        calculateWay.setText(""); // clear label too
+        calculateWay.setText("");
         firstNumber = 0;
         operation = "";
     }
@@ -35,7 +35,7 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
-        calculateWay.setText(firstNumber + " " + operation); // update label
+        calculateWay.setText(firstNumber + " " + operation);
         operationClicked = true;
     }
 
@@ -63,7 +63,7 @@ public class CalculatorController {
             case "/" -> {
                 if (secondNumber == 0) {
                     System.out.println("Error: Division by zero!");
-                    yield Double.NaN; // or show an error message
+                    yield Double.NaN;
                 } else {
                     yield firstNumber / secondNumber;
                 }
@@ -168,7 +168,7 @@ public class CalculatorController {
                 break;
 
             case DIGIT0:
-                if(event.isShiftDown()) {
+                if (event.isShiftDown()) {
                     resultButtonClicked();
                 } else {
                     resultTextField.appendText("0");
