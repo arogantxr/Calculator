@@ -17,7 +17,7 @@ public class CalculatorController {
 
     public void clearButtonClicked(ActionEvent actionEvent) {
         resultTextField.clear();
-        calculateWay.setText(""); // clear the label too
+        calculateWay.setText(""); // clear label too
         firstNumber = 0;
         operation = "";
     }
@@ -31,7 +31,7 @@ public class CalculatorController {
         if (!resultTextField.getText().isEmpty()) {
             firstNumber = Double.parseDouble(resultTextField.getText());
         }
-        calculateWay.setText(firstNumber + " " + operation);
+        calculateWay.setText(firstNumber + " " + operation); // update label
         operationClicked = true;
     }
 
@@ -51,22 +51,15 @@ public class CalculatorController {
         }
 
         double secondNumber = Double.parseDouble(resultTextField.getText());
-        switch (operation) {
-            case "+":
-                result = firstNumber + secondNumber;
-                break;
-            case "-":
-                result = firstNumber - secondNumber;
-                break;
-            case "X":
-                result = firstNumber * secondNumber;
-                break;
-            case "/":
-                result = firstNumber / secondNumber;
-                break;
-        }
+        result = switch (operation) {
+            case "+" -> firstNumber + secondNumber;
+            case "-" -> firstNumber - secondNumber;
+            case "X" -> firstNumber * secondNumber;
+            case "/" -> firstNumber / secondNumber;
+            default -> result;
+        };
 
-        calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " =");
+        calculateWay.setText(firstNumber + " " + operation + " " + secondNumber + " ="); // show calculation
         resultTextField.setText(String.valueOf(result));
         operation = "";
         firstNumber = result;
@@ -135,6 +128,9 @@ public class CalculatorController {
             default:
                 if ("*".equals(text)) startOperation("X");
                 if ("/".equals(text)) startOperation("/");
+                if ((code == KeyCode.DIGIT7 || code == KeyCode.NUMPAD7) && event.isShiftDown()) {
+                    startOperation("/");
+                }
                 break;
         }
     }
