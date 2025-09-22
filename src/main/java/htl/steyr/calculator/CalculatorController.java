@@ -15,7 +15,7 @@ public class CalculatorController {
     private String operation = "";
     private boolean operationClicked = false;
 
-    public void clearButtonClicked(ActionEvent actionEvent) {
+    public void clearButtonClicked() {
         resultTextField.clear();
         calculateWay.setText(""); // clear label too
         firstNumber = 0;
@@ -29,7 +29,7 @@ public class CalculatorController {
 
     private void ifEmpty(String op) {
         if (!operation.isEmpty()) {
-            resultButtonClicked(null);
+            resultButtonClicked();
         }
         operation = op;
         if (!resultTextField.getText().isEmpty()) {
@@ -48,7 +48,7 @@ public class CalculatorController {
         resultTextField.appendText(source.getText());
     }
 
-    public void resultButtonClicked(ActionEvent actionEvent) {
+    public void resultButtonClicked() {
         double result = 0;
         if (operation.isEmpty() || resultTextField.getText().isEmpty()) {
             return;
@@ -77,7 +77,7 @@ public class CalculatorController {
         firstNumber = result;
     }
 
-    public void invertButtonClicked(ActionEvent actionEvent) {
+    public void invertButtonClicked() {
         if (!resultTextField.getText().isEmpty()) {
             double number = Double.parseDouble(resultTextField.getText());
             number *= -1;
@@ -85,7 +85,7 @@ public class CalculatorController {
         }
     }
 
-    public void commaButtonClicked(ActionEvent actionEvent) {
+    public void commaButtonClicked() {
         if (!resultTextField.getText().contains(".")) {
             resultTextField.appendText(".");
         }
@@ -122,20 +122,20 @@ public class CalculatorController {
                 break;
             case ENTER:
             case EQUALS:
-                resultButtonClicked(null);
+                resultButtonClicked();
                 break;
             case COMMA:
             case PERIOD:
-                commaButtonClicked(null);
+                commaButtonClicked();
                 break;
             case BACK_SPACE:
                 deleteLastChar();
                 break;
             case C:
-                clearButtonClicked(null);
+                clearButtonClicked();
                 break;
             case CONTROL:
-                invertButtonClicked(null);
+                invertButtonClicked();
                 break;
             default:
                 if ("*".equals(text)) startOperation("X");
